@@ -447,52 +447,10 @@
       margin-top: 9px;
     }
 
-    .data-table {
-      width: 100%;
-      margin-top: 22px;
-      border-collapse: separate;
-      border-spacing: 0;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-    }
-
-    .data-table th,
-    .data-table td {
-      padding: 17px 18px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    .data-table th {
-      background: rgba(255, 255, 255, 0.025);
-      color: var(--text);
-      font-size: 14px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .data-table td {
-      color: var(--muted-strong);
-    }
-
-    .data-table tr:last-child td {
-      border-bottom: 0;
-    }
-
     .external-link {
       color: var(--cyan);
       font-weight: 700;
       text-underline-offset: 3px;
-    }
-
-    .notice {
-      padding: 20px 22px;
-      border-left: 3px solid var(--cyan);
-      border-radius: 0 14px 14px 0;
-      background: rgba(255, 255, 255, 0.025);
-      color: var(--muted-strong);
     }
 
     .support-grid .card {
@@ -618,41 +576,6 @@
       .privacy-header {
         padding: 26px 22px;
       }
-
-      .data-table,
-      .data-table tbody,
-      .data-table tr,
-      .data-table td {
-        display: block;
-        width: 100%;
-      }
-
-      .data-table thead {
-        display: none;
-      }
-
-      .data-table tr + tr {
-        border-top: 1px solid var(--line);
-      }
-
-      .data-table td {
-        border-bottom: 0;
-      }
-
-      .data-table td + td {
-        padding-top: 0;
-      }
-
-      .data-table td::before {
-        content: attr(data-label);
-        display: block;
-        margin-bottom: 5px;
-        color: var(--text);
-        font-size: 13px;
-        font-weight: 850;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -689,7 +612,9 @@
   <main id="top">
     <section class="hero" aria-labelledby="hero-title">
       <div>
-        <p class="eyebrow">Geometric logic for iPhone and iPad</p>
+        <p class="eyebrow">
+          Geometric logic for iPhone and iPad
+        </p>
 
         <h1 id="hero-title">
           One path.<br>
@@ -886,8 +811,7 @@
     <section class="section" id="privacy" aria-labelledby="privacy-title">
       <div class="privacy-shell">
         <header class="privacy-header">
-          <p class="section-label">Transparency and simple choices</p>
-
+  
           <h2 id="privacy-title">
             Privacy Policy
           </h2>
@@ -906,591 +830,284 @@
 
           <div class="privacy-summary">
             <strong>In plain language:</strong>
-            Kross requires no account and uses no developer-operated
-            gameplay server. Your progress is stored locally on your
+            Kross requires no account. Your game progress stays on your
             device. The free version uses Google AdMob for advertising,
-            Apple processes Premium purchases, and the website host may
-            process standard technical logs.
+            and Apple securely processes Premium purchases.
           </div>
         </header>
 
         <div class="privacy-body">
           <section class="privacy-block" aria-labelledby="privacy-1">
-            <h3 id="privacy-1">1. Who is responsible</h3>
+            <h3 id="privacy-1">1. About Kross</h3>
 
             <p>
-              Kross is independently developed and published
-              (referred to as “Kross,” “we,” “us,” or “our” in this
-              policy). For privacy questions or requests, contact
-              <a
-                class="external-link"
-                href="mailto:tavistudio@yahoo.com"
-              >tavistudio@yahoo.com</a>.
+              This policy applies to the Kross app for iPhone and iPad
+              and to this website. Kross does not require an account and
+              does not operate a remote gameplay database. Your drawings,
+              puzzle attempts and level solutions are not sent to us.
             </p>
 
             <p>
-              This policy applies to the Kross iOS and iPadOS app and to
-              this website. It does not replace the separate privacy
-              policies of Google, Apple, GitHub, or other services linked
-              from this page.
+              We do not add our own analytics or profiling tools. This
+              website is informational only: it has no accounts,
+              advertising or contact forms and does not set its own
+              marketing cookies. Like most websites, its hosting provider
+              may process basic technical information needed to deliver
+              and protect the page, such as an IP address, browser type
+              and request time.
             </p>
           </section>
 
           <section class="privacy-block" aria-labelledby="privacy-2">
-            <h3 id="privacy-2">2. Information Kross handles</h3>
+            <h3 id="privacy-2">
+              2. Information stored on your device
+            </h3>
 
             <p>
-              Kross does not require account registration. The developer
-              does not operate a remote database or backend for gameplay,
-              does not receive your drawing paths or puzzle attempts, and
-              does not add independent analytics or profiling tools.
+              Kross stores only the information needed to make the game
+              work smoothly:
             </p>
 
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Information</th>
-                  <th>Where it is handled</th>
-                  <th>Purpose</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td data-label="Information">
-                    Game progress: completed levels, highest unlocked
-                    level and catalog version
-                  </td>
-                  <td data-label="Where">
-                    Locally on your device using Apple’s standard
-                    preferences storage
-                  </td>
-                  <td data-label="Purpose">
-                    Remember progress, unlock levels and keep the
-                    catalog consistent
-                  </td>
-                </tr>
-
-                <tr>
-                  <td data-label="Information">
-                    Advertising cadence: completion counters, whether
-                    the first ad has been shown and the time of the
-                    latest full-screen ad
-                  </td>
-                  <td data-label="Where">
-                    Locally on your device
-                  </td>
-                  <td data-label="Purpose">
-                    Avoid showing full-screen ads too frequently
-                  </td>
-                </tr>
-
-                <tr>
-                  <td data-label="Information">
-                    Privacy and consent choices
-                  </td>
-                  <td data-label="Where">
-                    Handled on-device by Google’s User Messaging
-                    Platform and participating vendors
-                  </td>
-                  <td data-label="Purpose">
-                    Determine whether ads may be requested and which
-                    ad-serving mode is permitted
-                  </td>
-                </tr>
-
-                <tr>
-                  <td data-label="Information">
-                    Premium product, transaction and entitlement status
-                  </td>
-                  <td data-label="Where">
-                    Processed by Apple through StoreKit and the App Store
-                  </td>
-                  <td data-label="Purpose">
-                    Complete, verify and restore the one-time Premium
-                    purchase
-                  </td>
-                </tr>
-
-                <tr>
-                  <td data-label="Information">
-                    Information you include in a support or privacy email
-                  </td>
-                  <td data-label="Where">
-                    Received by the developer’s email provider
-                  </td>
-                  <td data-label="Purpose">
-                    Respond to your request and maintain necessary
-                    support records
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <ul>
+              <li>
+                completed levels, the highest unlocked level and the
+                level-catalog version;
+              </li>
+              <li>
+                simple advertising-frequency information, such as
+                completion counters and the time of the latest
+                full-screen ad;
+              </li>
+              <li>
+                the Premium entitlement needed to display the correct
+                app experience;
+              </li>
+              <li>
+                privacy choices stored by Google’s consent tools where
+                applicable.
+              </li>
+            </ul>
 
             <p>
-              The current version of Kross does not request access to
-              your precise location, contacts, photos, camera,
-              microphone or health data. It does not ask for Apple’s
-              App Tracking Transparency permission. Third-party
-              advertising services may still process identifiers and
-              technical data available under applicable platform rules,
-              device settings and your privacy choices, as explained
-              below.
+              Gameplay progress and advertising-frequency information
+              remain locally on your device. The current version of Kross
+              does not request access to your precise location, contacts,
+              photos, camera, microphone or health data, and it does not
+              request Apple’s App Tracking Transparency permission.
             </p>
           </section>
 
           <section class="privacy-block" aria-labelledby="privacy-3">
             <h3 id="privacy-3">
-              3. Advertising, Google AdMob and consent
+              3. Advertising and consent
             </h3>
 
             <p>
-              The free version of Kross uses the Google Mobile Ads SDK
-              (AdMob) to provide interstitial ads and rewarded ads. A
-              rewarded ad may be offered before a hint; interstitial ads
-              may be shown only at configured gameplay intervals. Ads
-              are not requested for a recognized Premium user.
+              The free version of Kross uses Google AdMob to provide
+              interstitial ads and rewarded ads. Rewarded ads may be
+              offered before a hint. Interstitial ads appear only at
+              configured gameplay intervals. Ads are not requested after
+              Kross recognizes an active Premium purchase.
             </p>
 
             <p>
-              Depending on your region, device settings, consent
-              choices, ad configuration and the ad that is delivered,
-              Google and its advertising partners may process:
+              Depending on your region, device settings, privacy choices
+              and the ad being delivered, Google and its advertising
+              partners may process:
             </p>
 
             <ul>
               <li>
-                IP address, which may be used to estimate a general or
-                approximate location;
+                IP address, which may be used to estimate a general
+                location;
               </li>
               <li>
-                device or app-bounded identifiers and, where law and
-                platform permission allow, an advertising identifier;
+                device or app-related identifiers available under
+                Apple’s rules;
               </li>
               <li>
-                advertising data, such as ads shown and interactions
-                with ads;
+                advertising data, including ads shown and interactions
+                with them;
               </li>
               <li>
-                product interactions, such as app launches, taps or
-                video views related to advertising;
+                app and ad interactions, such as launches, taps or
+                rewarded-video views;
               </li>
               <li>
-                diagnostic information, crash logs, performance
-                information and similar technical data.
+                diagnostic, crash and performance information.
               </li>
             </ul>
 
             <p>
-              Google and participating vendors may use this information
-              to deliver and measure ads, limit repetition, prevent
-              fraud and abuse, maintain security, diagnose problems,
-              produce aggregated reporting and—where you have made the
-              required choice—personalize advertising.
+              This information may be used to deliver and measure ads,
+              limit repetition, prevent fraud, maintain security and
+              improve advertising performance.
             </p>
 
-            <h4>Consent and ad-serving modes</h4>
+            <h4>Your consent choices</h4>
 
             <p>
-              Kross uses Google’s User Messaging Platform (UMP). At
-              launch, the app asks UMP whether a privacy message is
-              required. When required, Kross presents Google’s form
-              before enabling gameplay and checks whether ads may be
-              requested. The form can cover consent under European
-              privacy rules and choices under applicable U.S. state
-              laws. Where Google requires a privacy-options entry point,
-              Kross makes <strong>Manage Consent</strong> available from
-              the in-app Privacy page.
+              Kross uses Google’s User Messaging Platform (UMP). Where a
+              privacy message is required, it is displayed before ads
+              are enabled. You can review or change the available choices
+              through <strong>Privacy → Manage Consent</strong> inside
+              Kross whenever Google requires that option.
             </p>
 
             <p>
-              Depending on applicable law and your choices, Google may
-              provide personalized ads, non-personalized ads, limited
-              ads or technical ad delivery. Choosing not to consent to
-              personalized advertising does <strong>not</strong>
-              necessarily mean that no ads will appear; contextual,
-              limited or technical ads may still be served where
-              permitted.
+              Depending on your choices and applicable law, Google may
+              provide personalized, non-personalized, limited or technical
+              ads. Declining personalized advertising does not necessarily
+              remove all ads; other permitted ad types may still appear.
             </p>
 
-            <p class="notice">
-              Kross does not independently decide which consent form or
-              vendor list applies to a particular user. Google UMP
-              determines whether a message is required based on its
-              configuration and the information available to the SDK.
+            <p>
+              More information is available in the
+              <a
+                class="external-link"
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Google Privacy Policy</a>,
+              <a
+                class="external-link"
+                href="https://policies.google.com/technologies/partner-sites"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Google’s partner-sites explanation</a>
+              and
+              <a
+                class="external-link"
+                href="https://developers.google.com/admob/ios/privacy/data-disclosure"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Google Mobile Ads SDK data disclosure</a>.
             </p>
-
-            <h4>Google resources</h4>
-
-            <ul>
-              <li>
-                <a
-                  class="external-link"
-                  href="https://policies.google.com/privacy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Google Privacy Policy</a>
-              </li>
-
-              <li>
-                <a
-                  class="external-link"
-                  href="https://policies.google.com/technologies/partner-sites"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >How Google uses information from sites or apps that use its services</a>
-              </li>
-
-              <li>
-                <a
-                  class="external-link"
-                  href="https://developers.google.com/admob/ios/privacy/data-disclosure"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Google Mobile Ads SDK data disclosure</a>
-              </li>
-
-              <li>
-                <a
-                  class="external-link"
-                  href="https://developers.google.com/admob/ios/privacy/ad-serving-modes"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Google’s AdMob ad-serving modes</a>
-              </li>
-
-              <li>
-                <a
-                  class="external-link"
-                  href="https://developers.google.com/admob/ios/privacy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Google User Messaging Platform privacy guide</a>
-              </li>
-            </ul>
           </section>
 
           <section class="privacy-block" aria-labelledby="privacy-4">
             <h3 id="privacy-4">
-              4. Premium purchases and Apple
+              4. Premium purchases
             </h3>
 
             <p>
-              Kross Premium is a one-time in-app purchase processed by
-              Apple through StoreKit and the App Store. Apple handles
-              the Apple ID, payment method, billing information,
-              transaction processing, fraud prevention and applicable
-              financial records. Kross does not receive or store your
-              full payment-card details.
+              Kross Premium is an optional one-time in-app purchase
+              processed securely by Apple through StoreKit and the
+              App Store. Apple handles your Apple ID, payment method,
+              billing and transaction information. Kross does not receive
+              or store your full payment-card details.
             </p>
 
             <p>
               The app receives only the transaction and entitlement
-              information needed to verify whether Premium is active and
-              to restore the purchase. Apple may provide developers with
-              purchase or refund reporting as described in Apple’s
-              policies.
+              information needed to confirm or restore Premium access.
+              Apple handles purchase records according to its own
+              policies. You can read
+              <a
+                class="external-link"
+                href="https://www.apple.com/legal/privacy/data/en/appstore/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >App Store &amp; Privacy</a>
+              and the
+              <a
+                class="external-link"
+                href="https://www.apple.com/legal/privacy/en-ww/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Apple Privacy Policy</a>.
             </p>
-
-            <ul>
-              <li>
-                <a
-                  class="external-link"
-                  href="https://www.apple.com/legal/privacy/data/en/appstore/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >App Store &amp; Privacy</a>
-              </li>
-
-              <li>
-                <a
-                  class="external-link"
-                  href="https://www.apple.com/legal/privacy/en-ww/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Apple Privacy Policy</a>
-              </li>
-            </ul>
           </section>
 
           <section class="privacy-block" aria-labelledby="privacy-5">
-            <h3 id="privacy-5">5. Website data</h3>
+            <h3 id="privacy-5">5. Your choices</h3>
+
+            <ul>
+              <li>
+                Review or change the available advertising choices
+                through <strong>Privacy → Manage Consent</strong>
+                in Kross.
+              </li>
+              <li>
+                Manage App Store purchases and device privacy settings
+                through your Apple account or device settings.
+              </li>
+              <li>
+                Delete locally stored game information by removing the
+                app and, where applicable, its associated backup.
+              </li>
+              <li>
+                Contact us using either email address below if you have
+                a privacy question or request.
+              </li>
+            </ul>
 
             <p>
-              This is a static informational website. We do not place
-              advertising, provide user accounts, run a
-              developer-controlled analytics service, or set our own
-              marketing cookies on this site. We do not collect
-              information through contact forms because the site does
-              not contain one.
-            </p>
-
-            <p>
-              If this site is hosted with GitHub Pages, GitHub may
-              automatically process standard service-usage and technical
-              information—such as IP address, device or browser
-              information, request date and time, referring page and
-              security logs—to deliver, protect and operate its service.
-              That processing is controlled by GitHub and is described
-              in the
-              <a
-                class="external-link"
-                href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
-                target="_blank"
-                rel="noopener noreferrer"
-              >GitHub General Privacy Statement</a>.
-            </p>
-
-            <p>
-              Following an external link takes you to a third-party
-              website governed by that provider’s own privacy policy.
+              Depending on where you live, you may have rights to access,
+              correct, delete, restrict or object to the processing of
+              personal information, withdraw consent or appeal a privacy
+              decision. Where applicable, processing is based on your
+              consent, providing the service or purchase you requested,
+              legitimate interests such as security and support, or legal
+              obligations.
             </p>
           </section>
 
           <section class="privacy-block" aria-labelledby="privacy-6">
             <h3 id="privacy-6">
-              6. How information is used and disclosed
+              6. Retention and sharing
             </h3>
 
             <p>
-              Information is used only as needed to operate Kross,
-              remember progress, manage advertising frequency and
-              consent, provide hints, verify Premium access, respond to
-              support requests, maintain security and comply with legal
-              obligations.
+              Local game information remains on your device until it is
+              reset or removed, subject to Apple’s backup and restore
+              behavior. Google and Apple retain information they process
+              according to their own policies. Support emails are kept
+              only as long as reasonably needed to answer the request,
+              resolve a problem or meet a legal requirement.
             </p>
 
             <p>
-              The developer does not sell personal information.
-              Information may be disclosed or made available in these
-              limited situations:
-            </p>
-
-            <ul>
-              <li>
-                to Google and its participating vendors for advertising,
-                consent management, measurement, security and related
-                services in the free version;
-              </li>
-              <li>
-                to Apple for App Store distribution, purchases,
-                restoration, refunds and fraud prevention;
-              </li>
-              <li>
-                to the website and email service providers needed to
-                deliver the site and respond to your messages;
-              </li>
-              <li>
-                when reasonably necessary to comply with law, legal
-                process, enforceable government requests, protect rights
-                or safety, investigate abuse, or defend legal claims;
-              </li>
-              <li>
-                as part of a legitimate transfer of the app or business,
-                subject to appropriate notice and continued protection.
-              </li>
-            </ul>
-
-            <p>
-              For laws that distinguish a “sale” from “sharing” for
-              cross-context behavioral advertising, the developer does
-              not sell your information for money. AdMob’s use or
-              disclosure of information for advertising may be treated
-              as “sharing” under some U.S. state laws. Where required,
-              the Google privacy form provides the applicable choice.
-            </p>
-          </section>
-
-          <section class="privacy-block" aria-labelledby="privacy-7">
-            <h3 id="privacy-7">7. Legal bases</h3>
-
-            <p>
-              Where the GDPR, UK GDPR or similar law applies,
-              information may be handled on one or more of these bases:
-            </p>
-
-            <ul>
-              <li>
-                <strong>Consent</strong>, for personalized advertising,
-                device storage/access or related processing where
-                consent is required. You can withdraw or change consent
-                through the available in-app privacy options.
-              </li>
-              <li>
-                <strong>Performance of a contract</strong>, when
-                necessary to provide gameplay features or the Premium
-                purchase you request.
-              </li>
-              <li>
-                <strong>Legitimate interests</strong>, such as
-                maintaining app security, preventing fraud, providing
-                support and operating a reliable service, where those
-                interests are not overridden by your rights.
-              </li>
-              <li>
-                <strong>Legal obligation</strong>, where records or
-                disclosures are required by applicable law.
-              </li>
-            </ul>
-
-            <p>
-              Google, Apple and other independent providers determine
-              their own legal bases for processing under their
-              respective policies and consent interfaces.
-            </p>
-          </section>
-
-          <section class="privacy-block" aria-labelledby="privacy-8">
-            <h3 id="privacy-8">8. Retention and deletion</h3>
-
-            <ul>
-              <li>
-                <strong>Local game and ad-cadence data</strong>
-                remains on your device until it is reset, the app’s data
-                is removed or the app is deleted, subject to any device
-                backup and restore behavior controlled by Apple.
-              </li>
-              <li>
-                <strong>Premium purchase records</strong>
-                are retained by Apple under its legal and business
-                requirements so that purchases can be verified or
-                restored.
-              </li>
-              <li>
-                <strong>Google advertising and consent data</strong>
-                is retained under Google’s and participating vendors’
-                policies.
-              </li>
-              <li>
-                <strong>Support emails</strong>
-                are kept only as long as reasonably necessary to answer
-                the request, maintain an appropriate support record,
-                resolve disputes and meet legal obligations.
-              </li>
-            </ul>
-
-            <p>
-              Because local gameplay data is not uploaded to a developer
-              server, we cannot view or remotely delete it. You can
-              remove it from the device by deleting the app and, where
-              applicable, its associated backup. This does not cancel or
-              erase a purchase record held by Apple.
-            </p>
-          </section>
-
-          <section class="privacy-block" aria-labelledby="privacy-9">
-            <h3 id="privacy-9">9. Your choices and rights</h3>
-
-            <p>
-              You may have rights to access, correct, delete, restrict
-              or object to processing of personal information, withdraw
-              consent, receive a portable copy, or appeal a privacy
-              decision, depending on your location.
-            </p>
-
-            <ul>
-              <li>
-                Use <strong>Privacy → Manage Consent</strong> in Kross
-                when Google indicates that privacy options are required.
-              </li>
-              <li>
-                Choose Kross Premium to remove interstitial and rewarded
-                advertising from the app. Purchasing Premium is optional
-                and is not required to exercise a privacy right.
-              </li>
-              <li>
-                Manage Apple account, purchase and device settings
-                through iOS, iPadOS or your Apple ID.
-              </li>
-              <li>
-                Contact us at
-                <a
-                  class="external-link"
-                  href="mailto:tavistudio@yahoo.com"
-                >tavistudio@yahoo.com</a>.
-                We may need enough information to understand and verify
-                the request, but we will not ask for unnecessary
-                sensitive information.
-              </li>
-            </ul>
-
-            <p>
-              For information held independently by Google, Apple,
-              GitHub or another vendor, you may also need to exercise
-              your rights directly with that provider. If you are in the
-              EEA, UK or another jurisdiction that provides this right,
-              you may lodge a complaint with your local data-protection
-              authority.
-            </p>
-          </section>
-
-          <section class="privacy-block" aria-labelledby="privacy-10">
-            <h3 id="privacy-10">10. Children’s privacy</h3>
-
-            <p>
-              Kross is a general-audience logic game and is not directed
-              specifically to children under 13 or the equivalent
-              minimum age in a user’s country. The developer does not
-              knowingly request a child’s name, contact details or
-              account information. If you believe a child has sent
-              personal information directly to us, contact us so we can
-              review and delete it where appropriate.
+              We do not sell your personal information. Information is
+              shared only with the service providers needed for
+              advertising, consent management, purchases, website
+              delivery and email support, or when required by law.
+              These providers may process information in other countries
+              under the safeguards described in their own privacy
+              policies.
             </p>
 
             <p>
-              Parents and guardians should supervise a child’s use of
-              the app, device privacy settings and any App Store
-              purchase. An App Store age rating describes content
-              suitability and does not, by itself, mean that an app is
-              directed to children for privacy-law purposes.
-            </p>
-          </section>
-
-          <section class="privacy-block" aria-labelledby="privacy-11">
-            <h3 id="privacy-11">11. International transfers</h3>
-
-            <p>
-              Google, Apple, GitHub, email providers and their service
-              providers may process information in countries other than
-              the one where you live. Where required, those providers
-              use legal mechanisms intended to protect transferred
-              information, as explained in their own privacy policies.
-            </p>
-          </section>
-
-          <section class="privacy-block" aria-labelledby="privacy-12">
-            <h3 id="privacy-12">12. Security</h3>
-
-            <p>
-              We use reasonable technical and organizational measures
-              appropriate to the limited information we handle. Local
-              gameplay information benefits from iOS and iPadOS device
-              protections, while purchases and third-party service data
-              are protected under the security practices of Apple,
-              Google, GitHub and the relevant providers. No storage or
+              We use reasonable measures appropriate to the limited
+              information handled by Kross, but no electronic storage or
               transmission method can be guaranteed to be completely
               secure.
             </p>
           </section>
 
-          <section class="privacy-block" aria-labelledby="privacy-13">
-            <h3 id="privacy-13">13. Changes to this policy</h3>
+          <section class="privacy-block" aria-labelledby="privacy-7">
+            <h3 id="privacy-7">
+              7. Children’s privacy
+            </h3>
 
             <p>
-              We may update this policy when Kross features, service
-              providers, legal requirements or data practices change.
-              The revised version will be posted here with a new
-              “Last updated” date. If a change is material, we will
-              provide additional notice where reasonably appropriate
-              or legally required.
+              Kross is a general-audience logic game and is not directed
+              specifically to children under 13 or the equivalent minimum
+              age in their country. We do not knowingly ask children to
+              provide names, contact details or account information. If
+              you believe a child has sent personal information directly
+              to us, please contact us so it can be reviewed and deleted
+              where appropriate.
             </p>
           </section>
 
-          <section class="privacy-block" aria-labelledby="privacy-14">
-            <h3 id="privacy-14">14. Contact</h3>
+          <section class="privacy-block" aria-labelledby="privacy-8">
+            <h3 id="privacy-8">
+              8. Contact and updates
+            </h3>
 
             <p>
-              Privacy questions, rights requests and concerns can be
+              Questions, support requests and privacy concerns can be
               sent to:
             </p>
 
@@ -1504,6 +1121,12 @@
                 class="external-link"
                 href="mailto:octavianpetrescu2025@yahoo.com"
               >octavianpetrescu2025@yahoo.com</a>
+            </p>
+
+            <p>
+              This policy may be updated if Kross features, service
+              providers or legal requirements change. The latest version
+              will always be published on this page with an updated date.
             </p>
           </section>
         </div>
