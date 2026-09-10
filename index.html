@@ -1,11 +1,1564 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kross</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#071113">
+  <meta name="description" content="Kross is a precise geometric logic puzzle for iPhone and iPad. Draw one continuous curve and cross every line exactly once.">
+  <title>Kross — One path. Every line. Once.</title>
+  <link rel="icon" type="image/png" href="assets/kross-app-icon.png">
+
+  <style>
+    :root {
+      --background: #070b0c;
+      --surface: #0b1517;
+      --surface-raised: #10191b;
+      --surface-soft: #12191a;
+      --text: #f0f1eb;
+      --muted: #909a9d;
+      --muted-strong: #b8c0c0;
+      --cyan: #25d9e3;
+      --cyan-soft: rgba(37, 217, 227, 0.12);
+      --cyan-border: rgba(37, 217, 227, 0.25);
+      --line: rgba(237, 241, 235, 0.10);
+      --max-width: 1120px;
+      --radius-large: 32px;
+      --radius-medium: 24px;
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 92px;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(37, 217, 227, 0.12),
+          transparent 33rem
+        ),
+        var(--background);
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Text",
+        "Segoe UI",
+        sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 4px;
+      border-radius: 8px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7, 11, 12, 0.82);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+      backdrop-filter: blur(22px) saturate(140%);
+    }
+
+    .nav {
+      width: min(calc(100% - 40px), var(--max-width));
+      min-height: 68px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .wordmark {
+      flex: 0 0 auto;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.22em;
+    }
+
+    .wordmark span {
+      color: var(--cyan);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-links a {
+      padding: 12px 13px;
+      color: var(--muted-strong);
+      text-decoration: none;
+      white-space: nowrap;
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .nav-links a:hover {
+      color: var(--cyan);
+    }
+
+    main {
+      width: min(calc(100% - 40px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 660px;
+      padding: 104px 0 84px;
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1.15fr)
+        minmax(280px, 0.85fr);
+      gap: clamp(48px, 8vw, 104px);
+      align-items: center;
+    }
+
+    .eyebrow,
+    .section-label {
+      margin: 0 0 12px;
+      color: var(--cyan);
+      font-size: 14px;
+      font-weight: 850;
+      letter-spacing: 0.19em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin-top: 0;
+      color: var(--text);
+      letter-spacing: -0.035em;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin-bottom: 24px;
+      font-size: clamp(50px, 8vw, 88px);
+      line-height: 0.98;
+      font-weight: 900;
+    }
+
+    h2 {
+      margin-bottom: 16px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.08;
+      font-weight: 860;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 22px;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .hero-copy {
+      max-width: 700px;
+      margin: 0 0 32px;
+      color: var(--muted-strong);
+      font-size: clamp(20px, 2.5vw, 27px);
+      line-height: 1.45;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      min-height: 52px;
+      padding: 13px 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-raised);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 800;
+      transition:
+        transform 160ms ease,
+        border-color 160ms ease;
+    }
+
+    .button.primary {
+      border-color: transparent;
+      background: var(--cyan);
+      color: #031012;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      border-color: var(--cyan-border);
+    }
+
+    .app-icon-wrap {
+      position: relative;
+      justify-self: center;
+      width: min(100%, 390px);
+      aspect-ratio: 1;
+    }
+
+    .app-icon-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 12%;
+      border-radius: 50%;
+      background: rgba(37, 217, 227, 0.35);
+      filter: blur(70px);
+    }
+
+    .app-icon {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 23%;
+      box-shadow:
+        var(--shadow),
+        0 0 0 1px var(--cyan-border);
+    }
+
+    .section {
+      padding: 92px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-intro {
+      max-width: 760px;
+      margin: 0 0 40px;
+      color: var(--muted-strong);
+      font-size: 19px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-medium);
+      background:
+        linear-gradient(
+          150deg,
+          rgba(255, 255, 255, 0.025),
+          transparent
+        ),
+        var(--surface-soft);
+      box-shadow: 0 14px 42px rgba(0, 0, 0, 0.12);
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .feature-card {
+      grid-column: span 4;
+    }
+
+    .feature-number {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 22px;
+      border: 1px solid var(--cyan-border);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--cyan-soft);
+      color: var(--cyan);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .card p,
+    .privacy-body p,
+    .privacy-body li {
+      color: var(--muted-strong);
+    }
+
+    .screenshots {
+      margin-top: 54px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    .screenshot {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .chapters {
+      margin-top: 42px;
+    }
+
+    .chapter-card {
+      grid-column: span 3;
+    }
+
+    .chapter-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text);
+      font-size: 19px;
+    }
+
+    .premium-card {
+      padding: clamp(30px, 5vw, 54px);
+      border-color: var(--cyan-border);
+      background:
+        radial-gradient(
+          circle at 100% 0%,
+          rgba(37, 217, 227, 0.15),
+          transparent 28rem
+        ),
+        var(--surface);
+    }
+
+    .premium-list {
+      margin: 26px 0 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 28px;
+      list-style: none;
+    }
+
+    .premium-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted-strong);
+    }
+
+    .premium-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+      font-weight: 900;
+    }
+
+    .privacy-shell {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-large);
+      background: var(--surface);
+    }
+
+    .privacy-header {
+      padding: clamp(30px, 6vw, 60px);
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(
+          circle at 0 0,
+          rgba(37, 217, 227, 0.12),
+          transparent 34rem
+        );
+    }
+
+    .privacy-meta {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .privacy-summary {
+      margin-top: 30px;
+      padding: 22px 24px;
+      border: 1px solid var(--cyan-border);
+      border-radius: 18px;
+      background: var(--cyan-soft);
+      color: var(--text);
+    }
+
+    .privacy-body {
+      padding: clamp(28px, 6vw, 60px);
+    }
+
+    .privacy-block {
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .privacy-block:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .privacy-block h3 {
+      font-size: 24px;
+    }
+
+    .privacy-block h4 {
+      margin: 26px 0 8px;
+      color: var(--text);
+      font-size: 18px;
+    }
+
+    .privacy-block ul {
+      margin: 14px 0 0;
+      padding-left: 24px;
+    }
+
+    .privacy-block li + li {
+      margin-top: 9px;
+    }
+
+    .data-table {
+      width: 100%;
+      margin-top: 22px;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 17px 18px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .data-table th {
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--text);
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .data-table td {
+      color: var(--muted-strong);
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .external-link {
+      color: var(--cyan);
+      font-weight: 700;
+      text-underline-offset: 3px;
+    }
+
+    .notice {
+      padding: 20px 22px;
+      border-left: 3px solid var(--cyan);
+      border-radius: 0 14px 14px 0;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--muted-strong);
+    }
+
+    .support-grid .card {
+      grid-column: span 6;
+    }
+
+    .email-link {
+      color: var(--cyan);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    footer {
+      padding: 44px 0 58px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .footer-links {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px 22px;
+    }
+
+    .footer-links a {
+      color: var(--muted-strong);
+      text-underline-offset: 3px;
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        padding-top: 74px;
+        text-align: center;
+      }
+
+      .hero-copy {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .app-icon-wrap {
+        width: min(72vw, 340px);
+        grid-row: 1;
+      }
+
+      .feature-card {
+        grid-column: span 6;
+      }
+
+      .chapter-card {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 16px;
+      }
+
+      .nav {
+        width: min(calc(100% - 24px), var(--max-width));
+      }
+
+      .nav-links a {
+        padding-inline: 10px;
+      }
+
+      .nav-links a:nth-child(2),
+      .nav-links a:nth-child(3) {
+        display: none;
+      }
+
+      main {
+        width: min(calc(100% - 28px), var(--max-width));
+      }
+
+      .hero {
+        padding: 56px 0 64px;
+        gap: 42px;
+      }
+
+      .section {
+        padding: 68px 0;
+      }
+
+      .card {
+        padding: 23px;
+      }
+
+      .feature-card,
+      .chapter-card,
+      .support-grid .card {
+        grid-column: 1 / -1;
+      }
+
+      .screenshots {
+        grid-template-columns: 78% 78% 78%;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding: 0 2px 20px;
+      }
+
+      .screenshot {
+        scroll-snap-align: center;
+        border-radius: 23px;
+      }
+
+      .premium-list {
+        grid-template-columns: 1fr;
+      }
+
+      .privacy-body,
+      .privacy-header {
+        padding: 26px 22px;
+      }
+
+      .data-table,
+      .data-table tbody,
+      .data-table tr,
+      .data-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .data-table thead {
+        display: none;
+      }
+
+      .data-table tr + tr {
+        border-top: 1px solid var(--line);
+      }
+
+      .data-table td {
+        border-bottom: 0;
+      }
+
+      .data-table td + td {
+        padding-top: 0;
+      }
+
+      .data-table td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 5px;
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Kross</h1>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="wordmark" href="#top" aria-label="Kross home">
+        KR<span>×</span>SS
+      </a>
+
+      <div class="nav-links">
+        <a href="#game">Game</a>
+        <a href="#features">Features</a>
+        <a href="#premium">Premium</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#support">Support</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Geometric logic for iPhone and iPad</p>
+
+        <h1 id="hero-title">
+          One path.<br>
+          Every line.<br>
+          Once.
+        </h1>
+
+        <p class="hero-copy">
+          Kross is a precise, distraction-free puzzle game built around
+          one deceptively simple challenge: draw a continuous curve that
+          crosses every line exactly once.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button primary" href="#game">
+            Discover Kross
+          </a>
+
+          <a class="button" href="#privacy">
+            Privacy Policy
+          </a>
+        </div>
+      </div>
+
+      <div class="app-icon-wrap">
+        <img
+          class="app-icon"
+          src="assets/kross-app-icon.png"
+          width="1024"
+          height="1024"
+          alt="Kross app icon showing a cyan curve crossing a white pentagon"
+        >
+      </div>
+    </section>
+
+    <section class="section" id="game" aria-labelledby="game-title">
+      <p class="section-label">The challenge</p>
+
+      <h2 id="game-title">
+        Think ahead. Move with precision.
+      </h2>
+
+      <p class="section-intro">
+        Plan your route, avoid every red node, and never cross the same
+        segment twice. You may lift your finger whenever needed, but the
+        same curve must continue precisely from the hand marker.
+      </p>
+
+      <div class="grid">
+        <article class="card feature-card">
+          <div class="feature-number" aria-hidden="true">01</div>
+          <h3>Draw one curve</h3>
+          <p>
+            Create a single continuous path through the geometric figure.
+            Lift your finger when needed and resume only from the marked
+            endpoint.
+          </p>
+        </article>
+
+        <article class="card feature-card">
+          <div class="feature-number" aria-hidden="true">02</div>
+          <h3>Cross every line once</h3>
+          <p>
+            Each segment must be crossed exactly one time. Do not trace
+            along a line and do not touch it tangentially.
+          </p>
+        </article>
+
+        <article class="card feature-card">
+          <div class="feature-number" aria-hidden="true">03</div>
+          <h3>Avoid red nodes</h3>
+          <p>
+            Red nodes are off limits. Find a route with enough clearance
+            to remain accurate from the first move to the last.
+          </p>
+        </article>
+      </div>
+
+      <div class="screenshots" aria-label="Kross gameplay screenshots">
+        <img
+          class="screenshot"
+          src="assets/kross-screenshot-1.png"
+          width="1284"
+          height="2778"
+          loading="lazy"
+          alt="Kross gameplay showing a cyan curve crossing a geometric puzzle"
+        >
+
+        <img
+          class="screenshot"
+          src="assets/kross-screenshot-2.png"
+          width="1284"
+          height="2778"
+          loading="lazy"
+          alt="Kross Focus puzzle with red nodes and a continuous cyan path"
+        >
+
+        <img
+          class="screenshot"
+          src="assets/kross-screenshot-3.png"
+          width="1284"
+          height="2778"
+          loading="lazy"
+          alt="Kross level browser showing several geometric logic puzzles"
+        >
+      </div>
+    </section>
+
+    <section class="section" id="features" aria-labelledby="features-title">
+      <p class="section-label">Designed to progress</p>
+
+      <h2 id="features-title">
+        300 carefully arranged puzzles.
+      </h2>
+
+      <p class="section-intro">
+        Every level has been validated to have a solution. Difficulty
+        grows through the logic of the route, subtle choices and
+        deliberate traps—not visual clutter.
+      </p>
+
+      <div class="grid chapters">
+        <article class="card chapter-card">
+          <strong>Learn</strong>
+          <p>Understand the rules and build confidence.</p>
+        </article>
+
+        <article class="card chapter-card">
+          <strong>Flow</strong>
+          <p>Read clean shapes and discover efficient routes.</p>
+        </article>
+
+        <article class="card chapter-card">
+          <strong>Focus</strong>
+          <p>Navigate more strategic decisions and traps.</p>
+        </article>
+
+        <article class="card chapter-card">
+          <strong>Master</strong>
+          <p>Apply precision and logic to the deepest puzzles.</p>
+        </article>
+      </div>
+
+      <div class="grid" style="margin-top: 18px">
+        <article class="card feature-card">
+          <h3>Interactive hints</h3>
+          <p>Follow a guided solution path when you need a nudge.</p>
+        </article>
+
+        <article class="card feature-card">
+          <h3>No timers or lives</h3>
+          <p>Solve every puzzle at your own pace, without pressure.</p>
+        </article>
+
+        <article class="card feature-card">
+          <h3>Made for Apple devices</h3>
+          <p>
+            Responsive layouts and precise touch controls for iPhone
+            and iPad.
+          </p>
+        </article>
+      </div>
+
+      <p class="section-intro" style="margin-top: 36px; margin-bottom: 0">
+        Inspired by Leonhard Euler’s analysis of the Seven Bridges of
+        Königsberg, Kross brings the spirit of a classic mathematical
+        puzzle into a modern geometric challenge.
+      </p>
+    </section>
+
+    <section class="section" id="premium" aria-labelledby="premium-title">
+      <div class="card premium-card">
+        <p class="section-label">Optional one-time upgrade</p>
+
+        <h2 id="premium-title">
+          Kross Premium
+        </h2>
+
+        <p class="section-intro" style="margin-bottom: 0">
+          Kross is free to play, with levels unlocking progressively as
+          you complete them. Premium is a one-time in-app purchase—never
+          a subscription.
+        </p>
+
+        <ul class="premium-list">
+          <li>Unlock all levels immediately</li>
+          <li>Remove interstitial ads</li>
+          <li>Use hints without rewarded ads</li>
+          <li>Restore with the purchasing Apple ID</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="privacy" aria-labelledby="privacy-title">
+      <div class="privacy-shell">
+        <header class="privacy-header">
+          <p class="section-label">Transparency and control</p>
+
+          <h2 id="privacy-title">
+            Privacy Policy
+          </h2>
+
+          <p>
+            This Privacy Policy explains how information is handled when
+            you use the Kross app for iPhone or iPad and this official
+            Kross website.
+          </p>
+
+          <p class="privacy-meta">
+            <strong>Effective date:</strong> September 11, 2026
+            &nbsp;·&nbsp;
+            <strong>Last updated:</strong> September 11, 2026
+          </p>
+
+          <div class="privacy-summary">
+            <strong>In plain language:</strong>
+            Kross requires no account and uses no developer-operated
+            gameplay server. Your progress is stored locally on your
+            device. The free version uses Google AdMob for advertising,
+            Apple processes Premium purchases, and the website host may
+            process standard technical logs.
+          </div>
+        </header>
+
+        <div class="privacy-body">
+          <section class="privacy-block" aria-labelledby="privacy-1">
+            <h3 id="privacy-1">1. Who is responsible</h3>
+
+            <p>
+              Kross is independently developed and published
+              (referred to as “Kross,” “we,” “us,” or “our” in this
+              policy). For privacy questions or requests, contact
+              <a
+                class="external-link"
+                href="mailto:tavistudio@yahoo.com"
+              >tavistudio@yahoo.com</a>.
+            </p>
+
+            <p>
+              This policy applies to the Kross iOS and iPadOS app and to
+              this website. It does not replace the separate privacy
+              policies of Google, Apple, GitHub, or other services linked
+              from this page.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-2">
+            <h3 id="privacy-2">2. Information Kross handles</h3>
+
+            <p>
+              Kross does not require account registration. The developer
+              does not operate a remote database or backend for gameplay,
+              does not receive your drawing paths or puzzle attempts, and
+              does not add independent analytics or profiling tools.
+            </p>
+
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Information</th>
+                  <th>Where it is handled</th>
+                  <th>Purpose</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td data-label="Information">
+                    Game progress: completed levels, highest unlocked
+                    level and catalog version
+                  </td>
+                  <td data-label="Where">
+                    Locally on your device using Apple’s standard
+                    preferences storage
+                  </td>
+                  <td data-label="Purpose">
+                    Remember progress, unlock levels and keep the
+                    catalog consistent
+                  </td>
+                </tr>
+
+                <tr>
+                  <td data-label="Information">
+                    Advertising cadence: completion counters, whether
+                    the first ad has been shown and the time of the
+                    latest full-screen ad
+                  </td>
+                  <td data-label="Where">
+                    Locally on your device
+                  </td>
+                  <td data-label="Purpose">
+                    Avoid showing full-screen ads too frequently
+                  </td>
+                </tr>
+
+                <tr>
+                  <td data-label="Information">
+                    Privacy and consent choices
+                  </td>
+                  <td data-label="Where">
+                    Handled on-device by Google’s User Messaging
+                    Platform and participating vendors
+                  </td>
+                  <td data-label="Purpose">
+                    Determine whether ads may be requested and which
+                    ad-serving mode is permitted
+                  </td>
+                </tr>
+
+                <tr>
+                  <td data-label="Information">
+                    Premium product, transaction and entitlement status
+                  </td>
+                  <td data-label="Where">
+                    Processed by Apple through StoreKit and the App Store
+                  </td>
+                  <td data-label="Purpose">
+                    Complete, verify and restore the one-time Premium
+                    purchase
+                  </td>
+                </tr>
+
+                <tr>
+                  <td data-label="Information">
+                    Information you include in a support or privacy email
+                  </td>
+                  <td data-label="Where">
+                    Received by the developer’s email provider
+                  </td>
+                  <td data-label="Purpose">
+                    Respond to your request and maintain necessary
+                    support records
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>
+              The current version of Kross does not request access to
+              your precise location, contacts, photos, camera,
+              microphone or health data. It does not ask for Apple’s
+              App Tracking Transparency permission. Third-party
+              advertising services may still process identifiers and
+              technical data available under applicable platform rules,
+              device settings and your privacy choices, as explained
+              below.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-3">
+            <h3 id="privacy-3">
+              3. Advertising, Google AdMob and consent
+            </h3>
+
+            <p>
+              The free version of Kross uses the Google Mobile Ads SDK
+              (AdMob) to provide interstitial ads and rewarded ads. A
+              rewarded ad may be offered before a hint; interstitial ads
+              may be shown only at configured gameplay intervals. Ads
+              are not requested for a recognized Premium user.
+            </p>
+
+            <p>
+              Depending on your region, device settings, consent
+              choices, ad configuration and the ad that is delivered,
+              Google and its advertising partners may process:
+            </p>
+
+            <ul>
+              <li>
+                IP address, which may be used to estimate a general or
+                approximate location;
+              </li>
+              <li>
+                device or app-bounded identifiers and, where law and
+                platform permission allow, an advertising identifier;
+              </li>
+              <li>
+                advertising data, such as ads shown and interactions
+                with ads;
+              </li>
+              <li>
+                product interactions, such as app launches, taps or
+                video views related to advertising;
+              </li>
+              <li>
+                diagnostic information, crash logs, performance
+                information and similar technical data.
+              </li>
+            </ul>
+
+            <p>
+              Google and participating vendors may use this information
+              to deliver and measure ads, limit repetition, prevent
+              fraud and abuse, maintain security, diagnose problems,
+              produce aggregated reporting and—where you have made the
+              required choice—personalize advertising.
+            </p>
+
+            <h4>Consent and ad-serving modes</h4>
+
+            <p>
+              Kross uses Google’s User Messaging Platform (UMP). At
+              launch, the app asks UMP whether a privacy message is
+              required. When required, Kross presents Google’s form
+              before enabling gameplay and checks whether ads may be
+              requested. The form can cover consent under European
+              privacy rules and choices under applicable U.S. state
+              laws. Where Google requires a privacy-options entry point,
+              Kross makes <strong>Manage Consent</strong> available from
+              the in-app Privacy page.
+            </p>
+
+            <p>
+              Depending on applicable law and your choices, Google may
+              provide personalized ads, non-personalized ads, limited
+              ads or technical ad delivery. Choosing not to consent to
+              personalized advertising does <strong>not</strong>
+              necessarily mean that no ads will appear; contextual,
+              limited or technical ads may still be served where
+              permitted.
+            </p>
+
+            <p class="notice">
+              Kross does not independently decide which consent form or
+              vendor list applies to a particular user. Google UMP
+              determines whether a message is required based on its
+              configuration and the information available to the SDK.
+            </p>
+
+            <h4>Google resources</h4>
+
+            <ul>
+              <li>
+                <a
+                  class="external-link"
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Google Privacy Policy</a>
+              </li>
+
+              <li>
+                <a
+                  class="external-link"
+                  href="https://policies.google.com/technologies/partner-sites"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >How Google uses information from sites or apps that use its services</a>
+              </li>
+
+              <li>
+                <a
+                  class="external-link"
+                  href="https://developers.google.com/admob/ios/privacy/data-disclosure"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Google Mobile Ads SDK data disclosure</a>
+              </li>
+
+              <li>
+                <a
+                  class="external-link"
+                  href="https://developers.google.com/admob/ios/privacy/ad-serving-modes"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Google’s AdMob ad-serving modes</a>
+              </li>
+
+              <li>
+                <a
+                  class="external-link"
+                  href="https://developers.google.com/admob/ios/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Google User Messaging Platform privacy guide</a>
+              </li>
+            </ul>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-4">
+            <h3 id="privacy-4">
+              4. Premium purchases and Apple
+            </h3>
+
+            <p>
+              Kross Premium is a one-time in-app purchase processed by
+              Apple through StoreKit and the App Store. Apple handles
+              the Apple ID, payment method, billing information,
+              transaction processing, fraud prevention and applicable
+              financial records. Kross does not receive or store your
+              full payment-card details.
+            </p>
+
+            <p>
+              The app receives only the transaction and entitlement
+              information needed to verify whether Premium is active and
+              to restore the purchase. Apple may provide developers with
+              purchase or refund reporting as described in Apple’s
+              policies.
+            </p>
+
+            <ul>
+              <li>
+                <a
+                  class="external-link"
+                  href="https://www.apple.com/legal/privacy/data/en/appstore/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >App Store &amp; Privacy</a>
+              </li>
+
+              <li>
+                <a
+                  class="external-link"
+                  href="https://www.apple.com/legal/privacy/en-ww/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Apple Privacy Policy</a>
+              </li>
+            </ul>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-5">
+            <h3 id="privacy-5">5. Website data</h3>
+
+            <p>
+              This is a static informational website. We do not place
+              advertising, provide user accounts, run a
+              developer-controlled analytics service, or set our own
+              marketing cookies on this site. We do not collect
+              information through contact forms because the site does
+              not contain one.
+            </p>
+
+            <p>
+              If this site is hosted with GitHub Pages, GitHub may
+              automatically process standard service-usage and technical
+              information—such as IP address, device or browser
+              information, request date and time, referring page and
+              security logs—to deliver, protect and operate its service.
+              That processing is controlled by GitHub and is described
+              in the
+              <a
+                class="external-link"
+                href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
+                target="_blank"
+                rel="noopener noreferrer"
+              >GitHub General Privacy Statement</a>.
+            </p>
+
+            <p>
+              Following an external link takes you to a third-party
+              website governed by that provider’s own privacy policy.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-6">
+            <h3 id="privacy-6">
+              6. How information is used and disclosed
+            </h3>
+
+            <p>
+              Information is used only as needed to operate Kross,
+              remember progress, manage advertising frequency and
+              consent, provide hints, verify Premium access, respond to
+              support requests, maintain security and comply with legal
+              obligations.
+            </p>
+
+            <p>
+              The developer does not sell personal information.
+              Information may be disclosed or made available in these
+              limited situations:
+            </p>
+
+            <ul>
+              <li>
+                to Google and its participating vendors for advertising,
+                consent management, measurement, security and related
+                services in the free version;
+              </li>
+              <li>
+                to Apple for App Store distribution, purchases,
+                restoration, refunds and fraud prevention;
+              </li>
+              <li>
+                to the website and email service providers needed to
+                deliver the site and respond to your messages;
+              </li>
+              <li>
+                when reasonably necessary to comply with law, legal
+                process, enforceable government requests, protect rights
+                or safety, investigate abuse, or defend legal claims;
+              </li>
+              <li>
+                as part of a legitimate transfer of the app or business,
+                subject to appropriate notice and continued protection.
+              </li>
+            </ul>
+
+            <p>
+              For laws that distinguish a “sale” from “sharing” for
+              cross-context behavioral advertising, the developer does
+              not sell your information for money. AdMob’s use or
+              disclosure of information for advertising may be treated
+              as “sharing” under some U.S. state laws. Where required,
+              the Google privacy form provides the applicable choice.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-7">
+            <h3 id="privacy-7">7. Legal bases</h3>
+
+            <p>
+              Where the GDPR, UK GDPR or similar law applies,
+              information may be handled on one or more of these bases:
+            </p>
+
+            <ul>
+              <li>
+                <strong>Consent</strong>, for personalized advertising,
+                device storage/access or related processing where
+                consent is required. You can withdraw or change consent
+                through the available in-app privacy options.
+              </li>
+              <li>
+                <strong>Performance of a contract</strong>, when
+                necessary to provide gameplay features or the Premium
+                purchase you request.
+              </li>
+              <li>
+                <strong>Legitimate interests</strong>, such as
+                maintaining app security, preventing fraud, providing
+                support and operating a reliable service, where those
+                interests are not overridden by your rights.
+              </li>
+              <li>
+                <strong>Legal obligation</strong>, where records or
+                disclosures are required by applicable law.
+              </li>
+            </ul>
+
+            <p>
+              Google, Apple and other independent providers determine
+              their own legal bases for processing under their
+              respective policies and consent interfaces.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-8">
+            <h3 id="privacy-8">8. Retention and deletion</h3>
+
+            <ul>
+              <li>
+                <strong>Local game and ad-cadence data</strong>
+                remains on your device until it is reset, the app’s data
+                is removed or the app is deleted, subject to any device
+                backup and restore behavior controlled by Apple.
+              </li>
+              <li>
+                <strong>Premium purchase records</strong>
+                are retained by Apple under its legal and business
+                requirements so that purchases can be verified or
+                restored.
+              </li>
+              <li>
+                <strong>Google advertising and consent data</strong>
+                is retained under Google’s and participating vendors’
+                policies.
+              </li>
+              <li>
+                <strong>Support emails</strong>
+                are kept only as long as reasonably necessary to answer
+                the request, maintain an appropriate support record,
+                resolve disputes and meet legal obligations.
+              </li>
+            </ul>
+
+            <p>
+              Because local gameplay data is not uploaded to a developer
+              server, we cannot view or remotely delete it. You can
+              remove it from the device by deleting the app and, where
+              applicable, its associated backup. This does not cancel or
+              erase a purchase record held by Apple.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-9">
+            <h3 id="privacy-9">9. Your choices and rights</h3>
+
+            <p>
+              You may have rights to access, correct, delete, restrict
+              or object to processing of personal information, withdraw
+              consent, receive a portable copy, or appeal a privacy
+              decision, depending on your location.
+            </p>
+
+            <ul>
+              <li>
+                Use <strong>Privacy → Manage Consent</strong> in Kross
+                when Google indicates that privacy options are required.
+              </li>
+              <li>
+                Choose Kross Premium to remove interstitial and rewarded
+                advertising from the app. Purchasing Premium is optional
+                and is not required to exercise a privacy right.
+              </li>
+              <li>
+                Manage Apple account, purchase and device settings
+                through iOS, iPadOS or your Apple ID.
+              </li>
+              <li>
+                Contact us at
+                <a
+                  class="external-link"
+                  href="mailto:tavistudio@yahoo.com"
+                >tavistudio@yahoo.com</a>.
+                We may need enough information to understand and verify
+                the request, but we will not ask for unnecessary
+                sensitive information.
+              </li>
+            </ul>
+
+            <p>
+              For information held independently by Google, Apple,
+              GitHub or another vendor, you may also need to exercise
+              your rights directly with that provider. If you are in the
+              EEA, UK or another jurisdiction that provides this right,
+              you may lodge a complaint with your local data-protection
+              authority.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-10">
+            <h3 id="privacy-10">10. Children’s privacy</h3>
+
+            <p>
+              Kross is a general-audience logic game and is not directed
+              specifically to children under 13 or the equivalent
+              minimum age in a user’s country. The developer does not
+              knowingly request a child’s name, contact details or
+              account information. If you believe a child has sent
+              personal information directly to us, contact us so we can
+              review and delete it where appropriate.
+            </p>
+
+            <p>
+              Parents and guardians should supervise a child’s use of
+              the app, device privacy settings and any App Store
+              purchase. An App Store age rating describes content
+              suitability and does not, by itself, mean that an app is
+              directed to children for privacy-law purposes.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-11">
+            <h3 id="privacy-11">11. International transfers</h3>
+
+            <p>
+              Google, Apple, GitHub, email providers and their service
+              providers may process information in countries other than
+              the one where you live. Where required, those providers
+              use legal mechanisms intended to protect transferred
+              information, as explained in their own privacy policies.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-12">
+            <h3 id="privacy-12">12. Security</h3>
+
+            <p>
+              We use reasonable technical and organizational measures
+              appropriate to the limited information we handle. Local
+              gameplay information benefits from iOS and iPadOS device
+              protections, while purchases and third-party service data
+              are protected under the security practices of Apple,
+              Google, GitHub and the relevant providers. No storage or
+              transmission method can be guaranteed to be completely
+              secure.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-13">
+            <h3 id="privacy-13">13. Changes to this policy</h3>
+
+            <p>
+              We may update this policy when Kross features, service
+              providers, legal requirements or data practices change.
+              The revised version will be posted here with a new
+              “Last updated” date. If a change is material, we will
+              provide additional notice where reasonably appropriate
+              or legally required.
+            </p>
+          </section>
+
+          <section class="privacy-block" aria-labelledby="privacy-14">
+            <h3 id="privacy-14">14. Contact</h3>
+
+            <p>
+              Privacy questions, rights requests and concerns can be
+              sent to:
+            </p>
+
+            <p>
+              <a
+                class="email-link"
+                href="mailto:tavistudio@yahoo.com"
+              >tavistudio@yahoo.com</a>
+              <br>
+              <a
+                class="external-link"
+                href="mailto:octavianpetrescu2025@yahoo.com"
+              >octavianpetrescu2025@yahoo.com</a>
+            </p>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="support" aria-labelledby="support-title">
+      <p class="section-label">We are here to help</p>
+
+      <h2 id="support-title">
+        Support
+      </h2>
+
+      <p class="section-intro">
+        If you encounter a gameplay issue, purchase problem or privacy
+        concern, email us with your device model, iOS or iPadOS version,
+        Kross version and a brief description. Please do not send
+        passwords, payment-card numbers or other unnecessary sensitive
+        information.
+      </p>
+
+      <div class="grid support-grid">
+        <article class="card">
+          <h3>App support</h3>
+          <p>
+            <a
+              class="email-link"
+              href="mailto:tavistudio@yahoo.com?subject=Kross%20Support"
+            >tavistudio@yahoo.com</a>
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Privacy contact</h3>
+          <p>
+            <a
+              class="email-link"
+              href="mailto:tavistudio@yahoo.com?subject=Kross%20Privacy"
+            >tavistudio@yahoo.com</a>
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#game">Game</a>
+      <a href="#features">Features</a>
+      <a href="#premium">Premium</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#support">Support</a>
+    </div>
+
+    <div>© 2026 Kross. All rights reserved.</div>
+  </footer>
 </body>
 </html>
